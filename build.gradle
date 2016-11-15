@@ -1,0 +1,73 @@
+apply plugin: 'war'
+//apply plugin: 'checkstyle'
+
+//checkstyle {
+  //configFile = new File(rootDir, "etc/checkstyle.xml")
+//}
+
+//javadoc {
+	//source sourceSets.api.allJava
+//}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    jcenter()
+    mavenLocal()
+    mavenCentral()
+}
+
+def springVersion='4.3.3.RELEASE'
+def hibernateVersion='5.2.3.Final'
+def javaxVersion='1.0'
+def antlrVersion='3.1.1'
+def jacksonCoreVersion='2.2.3'
+def jacksonDataBindVersion='2.1.4'
+dependencies {
+	
+	providedCompile 'javax.servlet:servlet-api:2.5'
+    compile 'org.springframework:spring-webmvc:4.1.6.RELEASE'
+    compile 'org.springframework:spring-core:'+springVersion
+    compile 'org.slf4j:slf4j-api:1.7.21'
+    compile 'org.slf4j:slf4j-log4j12:1.7.21'
+    compile 'com.fasterxml.jackson.core:jackson-core:'+jacksonCoreVersion
+    compile 'com.fasterxml.jackson.core:jackson-databind:'+jacksonDataBindVersion
+
+    compile('org.hibernate:hibernate-core:'+hibernateVersion) {
+    	exclude group: 'org.hibernate.javax.persistence', module: 'hibernate-jpa-2.1-api'
+    }
+    compile 'org.hibernate:hibernate-entitymanager:'+hibernateVersion
+    compile 'javax.persistence:persistence-api:'+javaxVersion
+	compile 'mysql:mysql-connector-java:6.0.4'
+    
+    //testing framework
+    compile 'org.testng:testng:6.8.8'
+    compile 'org.springframework:spring-test:4.0.5.RELEASE'
+}
+
+def TOMCAT_HOME = "F:/Environment/apache-tomcat-8.0.23"
+
+clean {
+    //delete project build lib dir war file
+    delete '${rootDir}\\build'
+    println "Deleted ${rootDir}\\build directory"
+}
+
+test {
+	//enable TestNG support (default is JUnit)
+	useTestNG();
+}
+
+task copyWar << {
+	println "Copy war from ${buildDir}\\libs into "+TOMCAT_HOME+"/webapps"
+    copy {
+        from "${buildDir}\\libs"
+        into TOMCAT_HOME+"/webapps"
+        include "*.war"
+    }
+}
+//copyWar.mustRunAfter build
+
+//callback after build
+build.finalizedBy(copyWar)

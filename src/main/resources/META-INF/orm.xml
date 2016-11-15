@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd">
+	<persistence-unit-metadata>
+		<persistence-unit-defaults>
+			<access>FIELD</access>
+		</persistence-unit-defaults>
+	</persistence-unit-metadata>
+	<named-query name="User.findByEmailAndPassword">
+		<!-- <query>SELECT u FROM User u WHERE UPPER(u.email)=:email AND u.password=:password</query> -->
+		<query>SELECT u FROM User u WHERE u.email=:email AND u.password=:password</query>
+	</named-query>
+	<named-query name="User.findAll">
+		<query>SELECT u FROM User u</query>
+	</named-query>	
+	<named-query name="User.findActiveLoginUsersByLoginToken">
+		<query>SELECT h FROM User h WHERE h.securityToken=:securityToken</query>
+	</named-query>
+	<!-- <named-query name="Member.getMemberById">
+		<query>SELECT c FROM Member c WHERE c.id =:id</query>
+	</named-query> -->
+	<!-- <named-query name="MemberInfo.findAll">
+		<query>SELECT c FROM Member c</query>
+	</named-query>
+	<named-query name="CompanyInfo.findAll">
+		<query>SELECT o FROM Company o</query>
+	</named-query>
+	<named-query name="City.findAll">
+		<query>SELECT h FROM City h</query>
+	</named-query>
+	<named-query name="Zip.findAll">
+		<query>SELECT h FROM Zip h</query>
+	</named-query>
+	<named-query name="State.findAll">
+		<query>SELECT h FROM State h</query>
+	</named-query>
+	<named-query name="Country.findAll">
+		<query>SELECT h FROM Country h</query>
+	</named-query>
+	<named-query name="Continent.findAll">
+		<query>SELECT h FROM Continent h</query>
+	</named-query>
+	<named-query name="WorkTitle.findAll">
+		<query>SELECT h FROM WorkTitle h</query>
+	</named-query>
+	<named-query name="CompanyMemberWorkTitle.getWorkTitleListByMemberId">
+		<query>SELECT w FROM CompanyMemberWorkTitle w WHERE w.member.id=:memberId</query>
+	</named-query>	
+	named-query name="Company.getCompanyWithMembersByCompanyId">
+		<query>SELECT o FROM Company o LEFT JOIN FETCH o.members WHERE o.id =:companyId</query>
+	</named-query
+	<named-query name="Member.getMemberWithCompanysByMemberId">
+		<query>SELECT c FROM Member c LEFT JOIN FETCH c.companies WHERE c.id =:memberId</query>
+	</named-query> -->
+	<!-- named-query name="Member.getMemberWithCategoriesByMemberId">
+		<query>SELECT c FROM Member c LEFT JOIN FETCH c.industries WHERE c.id =:memberId</query>
+	</named-query-->
+</entity-mappings>
